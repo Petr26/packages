@@ -8,8 +8,7 @@ part of '../google_maps_flutter.dart';
 
 /// Controller for a single GoogleMap instance running on the host platform.
 class GoogleMapController {
-  GoogleMapController._(
-    this._googleMapState, {
+  GoogleMapController._(this._googleMapState, {
     required this.mapId,
   }) {
     _connectStreams(mapId);
@@ -24,17 +23,15 @@ class GoogleMapController {
   /// including camera movements, marker interactions, and other map events.
   /// These subscriptions should be disposed when the controller is disposed.
   final List<StreamSubscription<dynamic>> _streamSubscriptions =
-      <StreamSubscription<dynamic>>[];
+  <StreamSubscription<dynamic>>[];
 
   /// Initialize control of a [GoogleMap] with [id].
   ///
   /// Mainly for internal use when instantiating a [GoogleMapController] passed
   /// in [GoogleMap.onMapCreated] callback.
-  static Future<GoogleMapController> init(
-    int id,
-    CameraPosition initialCameraPosition,
-    _GoogleMapState googleMapState,
-  ) async {
+  static Future<GoogleMapController> init(int id,
+      CameraPosition initialCameraPosition,
+      _GoogleMapState googleMapState,) async {
     await GoogleMapsFlutterPlatform.instance.init(id);
     return GoogleMapController._(
       googleMapState,
@@ -56,8 +53,8 @@ class GoogleMapController {
       _streamSubscriptions.add(
         GoogleMapsFlutterPlatform.instance.onCameraMove(mapId: mapId).listen(
               (CameraMoveEvent e) =>
-                  _googleMapState.widget.onCameraMove!(e.value),
-            ),
+              _googleMapState.widget.onCameraMove!(e.value),
+        ),
       );
     }
     if (_googleMapState.widget.onCameraIdle != null) {
@@ -75,35 +72,35 @@ class GoogleMapController {
     _streamSubscriptions.add(
       GoogleMapsFlutterPlatform.instance.onMarkerDragStart(mapId: mapId).listen(
             (MarkerDragStartEvent e) =>
-                _googleMapState.onMarkerDragStart(e.value, e.position),
-          ),
+            _googleMapState.onMarkerDragStart(e.value, e.position),
+      ),
     );
     _streamSubscriptions.add(
       GoogleMapsFlutterPlatform.instance.onMarkerDrag(mapId: mapId).listen(
             (MarkerDragEvent e) =>
-                _googleMapState.onMarkerDrag(e.value, e.position),
-          ),
+            _googleMapState.onMarkerDrag(e.value, e.position),
+      ),
     );
     _streamSubscriptions.add(
       GoogleMapsFlutterPlatform.instance.onMarkerDragEnd(mapId: mapId).listen(
             (MarkerDragEndEvent e) =>
-                _googleMapState.onMarkerDragEnd(e.value, e.position),
-          ),
+            _googleMapState.onMarkerDragEnd(e.value, e.position),
+      ),
     );
     _streamSubscriptions.add(
       GoogleMapsFlutterPlatform.instance.onInfoWindowTap(mapId: mapId).listen(
             (InfoWindowTapEvent e) => _googleMapState.onInfoWindowTap(e.value),
-          ),
+      ),
     );
     _streamSubscriptions.add(
       GoogleMapsFlutterPlatform.instance.onPolylineTap(mapId: mapId).listen(
             (PolylineTapEvent e) => _googleMapState.onPolylineTap(e.value),
-          ),
+      ),
     );
     _streamSubscriptions.add(
       GoogleMapsFlutterPlatform.instance.onPolygonTap(mapId: mapId).listen(
             (PolygonTapEvent e) => _googleMapState.onPolygonTap(e.value),
-          ),
+      ),
     );
     _streamSubscriptions.add(
       GoogleMapsFlutterPlatform.instance
@@ -118,12 +115,17 @@ class GoogleMapController {
     _streamSubscriptions.add(
       GoogleMapsFlutterPlatform.instance.onLongPress(mapId: mapId).listen(
             (MapLongPressEvent e) => _googleMapState.onLongPress(e.position),
-          ),
+      ),
     );
     _streamSubscriptions.add(
       GoogleMapsFlutterPlatform.instance.onClusterTap(mapId: mapId).listen(
             (ClusterTapEvent e) => _googleMapState.onClusterTap(e.value),
-          ),
+      ),
+    );
+    _streamSubscriptions.add(
+      GoogleMapsFlutterPlatform.instance
+          .onPoiClick(mapId: mapId)
+          .listen((MapPoiClickEvent e) => _googleMapState.onPoiClick(e.value)),
     );
   }
 
@@ -155,8 +157,7 @@ class GoogleMapController {
   /// platform side.
   ///
   /// The returned [Future] completes after listeners have been notified.
-  Future<void> _updateClusterManagers(
-      ClusterManagerUpdates clusterManagerUpdates) {
+  Future<void> _updateClusterManagers(ClusterManagerUpdates clusterManagerUpdates) {
     return GoogleMapsFlutterPlatform.instance
         .updateClusterManagers(clusterManagerUpdates, mapId: mapId);
   }
@@ -167,8 +168,7 @@ class GoogleMapController {
   /// platform side.
   ///
   /// The returned [Future] completes after listeners have been notified.
-  Future<void> _updateGroundOverlays(
-      GroundOverlayUpdates groundOverlayUpdates) {
+  Future<void> _updateGroundOverlays(GroundOverlayUpdates groundOverlayUpdates) {
     return GoogleMapsFlutterPlatform.instance
         .updateGroundOverlays(groundOverlayUpdates, mapId: mapId);
   }
@@ -362,7 +362,7 @@ class GoogleMapController {
   /// Disposes of the platform resources
   void dispose() {
     for (final StreamSubscription<dynamic> streamSubscription
-        in _streamSubscriptions) {
+    in _streamSubscriptions) {
       streamSubscription.cancel();
     }
     _streamSubscriptions.clear();

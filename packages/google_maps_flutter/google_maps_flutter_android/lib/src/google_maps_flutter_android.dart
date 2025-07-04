@@ -220,6 +220,11 @@ class GoogleMapsFlutterAndroid extends GoogleMapsFlutterPlatform {
   }
 
   @override
+  Stream<MapPoiClickEvent> onPoiClick({required int mapId}) {
+    return _events(mapId).whereType<MapPoiClickEvent>();
+  }
+
+  @override
   Stream<ClusterTapEvent> onClusterTap({required int mapId}) {
     return _events(mapId).whereType<ClusterTapEvent>();
   }

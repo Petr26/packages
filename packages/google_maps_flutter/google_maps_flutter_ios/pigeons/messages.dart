@@ -719,6 +719,9 @@ abstract class MapsCallbackApi {
   @ObjCSelector('didLongPressAtPosition:')
   void onLongPress(PlatformLatLng position);
 
+  @ObjCSelector('didTapOnPOI:name:location:')
+  void didTapOnPOI(String placeID, String name, PlatformLatLng location);
+
   /// Called when a marker is tapped.
   @ObjCSelector('didTapMarkerWithIdentifier:')
   void onMarkerTap(String markerId);

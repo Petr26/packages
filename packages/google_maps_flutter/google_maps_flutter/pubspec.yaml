@@ -33,6 +33,30 @@ dev_dependencies:
   plugin_platform_interface: ^2.1.7
   stream_transform: ^2.0.0
 
+
+dependency_overrides:
+
+  google_maps_flutter_android:
+    # path: "../google_maps_flutter_android-2.2.1/"
+    git:
+      url: https://github.com/Petr26/packages.git
+      path: packages/google_maps_flutter/google_maps_flutter_android
+      ref: main
+
+  google_maps_flutter_ios:
+    # path: "../google_maps_flutter_ios-2.2.1/"
+    git:
+      url: https://github.com/Petr26/packages.git
+      path: packages/google_maps_flutter/google_maps_flutter_ios
+      ref: main
+
+  google_maps_flutter_platform_interface:
+    # path: "../google_maps_flutter_platform_interface-2.2.1/"
+    git:
+      url: https://github.com/Petr26/packages.git
+      path: packages/google_maps_flutter/google_maps_flutter_platform_interface
+      ref: main
+
 topics:
   - google-maps
   - google-maps-flutter

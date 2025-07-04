@@ -37,6 +37,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.PointOfInterest;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.TileOverlay;
@@ -318,6 +319,10 @@ class GoogleMapController
     flutterApi.onLongPress(Convert.latLngToPigeon(latLng), new NoOpVoidResult());
   }
 
+  public void onPoiClick(@NonNull PointOfInterest poi) {
+    flutterApi.onPoiClick(poi, new NoOpVoidResult());
+  }
+
   @Override
   public void onCameraMoveStarted(int reason) {
     flutterApi.onCameraMoveStarted(new NoOpVoidResult());
@@ -415,6 +420,7 @@ class GoogleMapController
     googleMap.setOnCircleClickListener(listener);
     googleMap.setOnMapClickListener(listener);
     googleMap.setOnMapLongClickListener(listener);
+    googleMap.setOnPoiClickListener(listener);
     googleMap.setOnGroundOverlayClickListener(listener);
   }
 
