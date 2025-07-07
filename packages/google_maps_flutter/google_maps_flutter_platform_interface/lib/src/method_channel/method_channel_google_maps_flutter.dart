@@ -12,6 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:stream_transform/stream_transform.dart';
 
 import '../../google_maps_flutter_platform_interface.dart';
+import '../types/point_of_interest.dart';
 import '../types/tile_overlay_updates.dart';
 import '../types/utils/map_configuration_serialization.dart';
 import 'serialization.dart';
@@ -172,6 +173,11 @@ class MethodChannelGoogleMapsFlutter extends GoogleMapsFlutterPlatform {
     return _events(mapId).whereType<ClusterTapEvent>();
   }
 
+  @override
+  Stream<MapPoiClickEvent> onPoiClick({required int mapId}) {
+    return _events(mapId).whereType<MapPoiClickEvent>();
+  }
+
   Future<dynamic> _handleMethodCall(MethodCall call, int mapId) async {
     switch (call.method) {
       case 'camera#onMoveStarted':
@@ -246,6 +252,16 @@ class MethodChannelGoogleMapsFlutter extends GoogleMapsFlutterPlatform {
         _mapEventStreamController.add(MapLongPressEvent(
           mapId,
           LatLng.fromJson(arguments['position'])!,
+        ));
+      case 'map#onPoiClick':
+        final Map<String, Object?> arguments = _getArgumentDictionary(call);
+        _mapEventStreamController.add(MapPoiClickEvent(
+          mapId,
+          PointOfInterest(
+            LatLng.fromJson(arguments['position'])!,
+            arguments['name']! as String,
+            arguments['placeId']! as String,
+          ),
         ));
       case 'tileOverlay#getTile':
         final Map<String, Object?> arguments = _getArgumentDictionary(call);

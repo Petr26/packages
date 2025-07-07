@@ -738,6 +738,8 @@ abstract class MapsCallbackApi {
   /// Called when the map, not a specifc map object, is long pressed.
   void onLongPress(PlatformLatLng position);
 
+  void onPoiClick(String placeID, String name, PlatformLatLng location);
+
   /// Called when a marker is tapped.
   void onMarkerTap(String markerId);
 

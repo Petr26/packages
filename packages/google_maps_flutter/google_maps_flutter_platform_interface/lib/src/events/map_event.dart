@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import '../../google_maps_flutter_platform_interface.dart';
+import '../types/point_of_interest.dart';
 
 /// Generic Event coming from the native side of Maps.
 ///
@@ -174,6 +175,12 @@ class MapLongPressEvent extends _PositionedMapEvent<void> {
   ///
   /// The `position` of this event is the LatLng where the Map was long pressed.
   MapLongPressEvent(int mapId, LatLng position) : super(mapId, position, null);
+}
+
+/// An event fired when a User click on point of interest on map
+class MapPoiClickEvent extends MapEvent<PointOfInterest> {
+  /// Build an MapTap Event triggered from the map represented by `mapId`.
+  MapPoiClickEvent(int mapId, PointOfInterest poi) : super(mapId, poi);
 }
 
 /// An event fired when a cluster icon managed by [ClusterManager] is tapped.

@@ -427,6 +427,21 @@
                                         }];
 }
 
+- (void)mapView:(nonnull GMSMapView *)mapView didTapPOIWithPlaceID:(nonnull NSString *)placeID name:(nonnull NSString *)name location:(CLLocationCoordinate2D)location {
+  [self.dartCallbackHandler didTapOnPOI:placeID
+                                            name:name
+                                        location:FGMGetPigeonLatLngForCoordinate(location)
+                                      completion:^(FlutterError *_Nullable _) {
+                                        // 3. Optional: Handle completion or errors from the Dart side
+                                        if (_) {
+                                          // An error occurred during communication with Dart
+                                          NSLog(@"Error communicating POI tap to Dart: %@", _.description);
+                                        }
+                                        // If no error, Dart successfully received the POI tap.
+                                        // You could add more specific success logging here if needed.
+                                      }];
+}
+
 - (void)interpretMapConfiguration:(FGMPlatformMapConfiguration *)config {
   FGMPlatformCameraTargetBounds *cameraTargetBounds = config.cameraTargetBounds;
   if (cameraTargetBounds) {
